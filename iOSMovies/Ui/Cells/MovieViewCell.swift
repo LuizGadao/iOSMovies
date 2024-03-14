@@ -7,21 +7,22 @@
 
 import UIKit
 import SwiftUI
+import Kingfisher
 
 class MovieViewCell: UICollectionViewCell {
     // MARK: - Properties
-    let imageView: UIImageView = {
+    private lazy var imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
-        imageView.backgroundColor = .blue
+        imageView.backgroundColor = .black
         imageView.layer.cornerRadius = 30
         imageView.layer.masksToBounds = true
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
         
-    let titleLabel: UILabel = {
+    private lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.boldSystemFont(ofSize: 20)
         label.textColor = .white
@@ -31,15 +32,13 @@ class MovieViewCell: UICollectionViewCell {
         return label
     }()
         
-    let descriptionLabel: UILabel = {
+    private lazy var descriptionLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 16)
         label.textColor = .white
         label.numberOfLines = 0
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "4.5"
-        
-    
         
         return label
     }()
@@ -48,6 +47,9 @@ class MovieViewCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupViews()
+        ///kDp1vUBnMpe8ak4rjgl3cLELqjU.jpg
+        ///hu40Uxp9WtpL34jv3zyWLb5zEVY.jpg
+        loadImage(imageUrl: "https://image.tmdb.org/t/p/w500/kDp1vUBnMpe8ak4rjgl3cLELqjU.jpg")
     }
         
     required init?(coder aDecoder: NSCoder) {
@@ -79,6 +81,10 @@ class MovieViewCell: UICollectionViewCell {
             descriptionLabel.trailingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: -8),
             
         ])
+    }
+    
+    func loadImage(imageUrl: String) {
+        imageView.kf.setImage(with: URL(string: imageUrl))
     }
 }
 
