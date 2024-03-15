@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class MoviesViewController: UIViewController {
 
     private var remote = NetworkdDataSource()
     var movies: [Movie] = []
@@ -76,7 +76,7 @@ class ViewController: UIViewController {
     }
 }
 
-extension ViewController: UICollectionViewDataSource {
+extension MoviesViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return movies.count
@@ -100,7 +100,7 @@ extension ViewController: UICollectionViewDataSource {
     
 }
 
-extension ViewController: UICollectionViewDelegateFlowLayout {
+extension MoviesViewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
@@ -114,7 +114,6 @@ extension ViewController: UICollectionViewDelegateFlowLayout {
             print("load more data")
             loadMovies()
         }
-        
     }
 
 }
