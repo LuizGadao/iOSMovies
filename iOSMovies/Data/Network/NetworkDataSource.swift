@@ -11,6 +11,7 @@ class NetworkdDataSource {
     
     private let apiKey = LocalProperties().getApiKey()
     private let baseURL = "https://api.themoviedb.org/3/"
+    private var page = 0
 
     private lazy var headers = [
         "accept": "application/json"
@@ -20,7 +21,8 @@ class NetworkdDataSource {
     init() { }
     
     func getMovies() async throws -> MovieResponse {
-        let endpointPopularMovies = "\(baseURL)movie/popular?page=1"
+        self.page = page + 1
+        let endpointPopularMovies = "\(baseURL)movie/popular?page=\(self.page)"
         
         guard var url = URL(string: endpointPopularMovies) else {
             throw MovieServiceError.invalidURL
@@ -33,6 +35,8 @@ class NetworkdDataSource {
             ]
         )
         
+        print(url.absoluteString)
+
         var request = URLRequest(
             url: url,
             cachePolicy: .useProtocolCachePolicy,

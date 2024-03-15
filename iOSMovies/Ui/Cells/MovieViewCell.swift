@@ -16,7 +16,7 @@ class MovieViewCell: UICollectionViewCell {
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
         imageView.backgroundColor = .black
-        imageView.layer.cornerRadius = 30
+        imageView.layer.cornerRadius = 20
         imageView.layer.masksToBounds = true
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
@@ -29,27 +29,17 @@ class MovieViewCell: UICollectionViewCell {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "Title Movie"
         label.textAlignment = .center
+        label.alpha = 0
         return label
     }()
-        
-    private lazy var descriptionLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 16)
-        label.textColor = .white
-        label.numberOfLines = 0
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "4.5"
-        
-        return label
-    }()
-        
+    
     // MARK: - Initialization
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupViews()
         ///kDp1vUBnMpe8ak4rjgl3cLELqjU.jpg
         ///hu40Uxp9WtpL34jv3zyWLb5zEVY.jpg
-        loadImage(imageUrl: "https://image.tmdb.org/t/p/w500/kDp1vUBnMpe8ak4rjgl3cLELqjU.jpg")
+        loadImage(imageUrl: "https://image.tmdb.org/t/p/w300/kDp1vUBnMpe8ak4rjgl3cLELqjU.jpg")
     }
         
     required init?(coder aDecoder: NSCoder) {
@@ -64,22 +54,16 @@ class MovieViewCell: UICollectionViewCell {
         
         contentView.addSubview(imageView)
         contentView.addSubview(titleLabel)
-        contentView.addSubview(descriptionLabel)
         
         NSLayoutConstraint.activate([
-            imageView.topAnchor.constraint(equalTo: contentView.topAnchor),
-            imageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
-            //imageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            imageView.heightAnchor.constraint(equalToConstant: 200),
-            imageView.widthAnchor.constraint(equalToConstant: 140),
+            imageView.topAnchor.constraint(equalTo: topAnchor),
+            imageView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            imageView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            imageView.heightAnchor.constraint(equalToConstant: 202),
             
             titleLabel.bottomAnchor.constraint(equalTo: imageView.bottomAnchor, constant: -18),
             titleLabel.leadingAnchor.constraint(equalTo: imageView.leadingAnchor, constant: 0),
-            titleLabel.trailingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: 0),
-            
-            descriptionLabel.topAnchor.constraint(equalTo: imageView.topAnchor, constant: 12),
-            descriptionLabel.trailingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: -8),
-            
+            titleLabel.trailingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: 0)
         ])
     }
     
