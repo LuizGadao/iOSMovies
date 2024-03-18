@@ -25,6 +25,19 @@ class MovieDetailsViewController: UIViewController {
     
     // MARK: - UI components
     
+    private lazy var scrollView: UIScrollView = {
+        let scroll = UIScrollView()
+        scroll.translatesAutoresizingMaskIntoConstraints = false
+        
+        return scroll
+    } ()
+    
+    private lazy var contentView: UIView = {
+        let contentView = UIView()
+        contentView.translatesAutoresizingMaskIntoConstraints = false
+        return contentView
+    } ()
+    
     private lazy var image: UIImageView = {
         let image = UIImageView()
         image.translatesAutoresizingMaskIntoConstraints = false
@@ -46,8 +59,8 @@ class MovieDetailsViewController: UIViewController {
     private lazy var titleLabel: UILabel = {
        let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = .systemFont(ofSize: 28.0, weight: .bold)
-        label.textColor = primaryColor
+        label.font = .systemFont(ofSize: 38.0, weight: .bold)
+        label.textColor = .black
         label.numberOfLines = 0
         
         return label
@@ -56,7 +69,7 @@ class MovieDetailsViewController: UIViewController {
     private lazy var infoLabel: UILabel = {
        let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = .systemFont(ofSize: 16.0)
+        label.font = .systemFont(ofSize: 18.0)
         //label.font = .italicSystemFont(ofSize: 16)
         label.textColor = .lightGray
         label.numberOfLines = 0
@@ -67,17 +80,27 @@ class MovieDetailsViewController: UIViewController {
     private lazy var rateLabel: UILabel = {
        let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = .systemFont(ofSize: 16.0, weight: .bold)
+        label.font = .systemFont(ofSize: 22.0, weight: .bold)
         label.textColor = .gray
         label.numberOfLines = 0
         
         return label
     }()
     
+    private lazy var synopisisTitle: UILabel = {
+       let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = .systemFont(ofSize: 24.0, weight: .bold)
+        label.textColor = .black
+        label.numberOfLines = 0
+        label.text = "Prolog"
+        return label
+    }()
+    
     private lazy var synopisisLabel: UILabel = {
        let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = .systemFont(ofSize: 16.0)
+        label.font = .systemFont(ofSize: 28.0)
         label.textColor = .lightGray
         label.numberOfLines = 0
         
@@ -120,40 +143,59 @@ class MovieDetailsViewController: UIViewController {
         setupConstraints()
         
         titleLabel.text = movie.title
-        infoLabel.text = "info hereee..."
-        synopisisLabel.text = "synopisis here..."
+        infoLabel.text = "| Release date: \(movie.releaseDate) \n| Original title: \(movie.originalTitle)\n| Popularity: \(movie.popularity)"
+        synopisisLabel.text = movie.overview //"synopisis here..."
         rateLabel.text = "4.7"
         
         let imagePreview = "kDp1vUBnMpe8ak4rjgl3cLELqjU.jpg"
-        var strPath = "https://image.tmdb.org/t/p/w500\(movie.posterPath ?? imagePreview)"
+        let strPath = "https://image.tmdb.org/t/p/w500\(movie.posterPath ?? imagePreview)"
         
         image.kf.setImage(with: URL(string: strPath))
     }
     
     private func addViews() {
-        view.addSubview(image)
-        view.addSubview(titleLabel)
-        view.addSubview(infoLabel)
-        view.addSubview(synopisisLabel)
-        view.addSubview(star)
-        view.addSubview(rateLabel)
-        view.addSubview(favoriteButton)
-        view.addSubview(backButton)
+        view.addSubview(scrollView)
+        scrollView.addSubview(contentView)
+        
+        contentView.addSubview(image)
+        contentView.addSubview(titleLabel)
+        contentView.addSubview(infoLabel)
+        contentView.addSubview(synopisisLabel)
+        contentView.addSubview(synopisisTitle)
+        contentView.addSubview(star)
+        contentView.addSubview(rateLabel)
+        contentView.addSubview(favoriteButton)
+        contentView.addSubview(backButton)
     }
     
     private func setupConstraints() {
+        let hConst = contentView.heightAnchor.constraint(equalTo: scrollView.heightAnchor, multiplier: 2)
+        hConst.isActive = true
+        hConst.priority = UILayoutPriority(50)
+        
         NSLayoutConstraint.activate([
-            image.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant:0),
-            image.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 8),
-            image.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -8),
-            image.heightAnchor.constraint(equalToConstant: 290),
+            scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 0),
+            scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0),
+            scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0),
+            scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0),
+            
+            contentView.topAnchor.constraint(equalTo: scrollView.topAnchor),
+            contentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
+            contentView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: 0),
+            contentView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: 0),
+            contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
+            
+            image.topAnchor.constraint(equalTo: contentView.topAnchor, constant:0),
+            image.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8),
+            image.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8),
+            image.heightAnchor.constraint(equalToConstant: 310),
             
             titleLabel.topAnchor.constraint(equalTo: image.bottomAnchor, constant: 16),
-            titleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-            titleLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -48),
+            titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
+            titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -48),
             
-            star.topAnchor.constraint(equalTo: image.bottomAnchor, constant: 16),
-            star.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -48),
+            star.topAnchor.constraint(equalTo: image.bottomAnchor, constant: 26),
+            star.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -48),
             star.widthAnchor.constraint(equalToConstant: 22.0),
             star.heightAnchor.constraint(equalToConstant: 22.0),
             
@@ -161,12 +203,17 @@ class MovieDetailsViewController: UIViewController {
             rateLabel.leadingAnchor.constraint(equalTo: star.trailingAnchor, constant: 6),
             
             infoLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 16),
-            infoLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-            infoLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+            infoLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
+            infoLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
             
-            synopisisLabel.topAnchor.constraint(equalTo: infoLabel.bottomAnchor, constant: 16),
-            synopisisLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-            synopisisLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+            synopisisTitle.topAnchor.constraint(equalTo: infoLabel.bottomAnchor, constant: 16),
+            synopisisTitle.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
+            synopisisTitle.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
+            
+            synopisisLabel.topAnchor.constraint(equalTo: synopisisTitle.bottomAnchor, constant: 16),
+            synopisisLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
+            synopisisLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
+            synopisisLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: 8),
             
             favoriteButton.topAnchor.constraint(equalTo: image.topAnchor, constant: 24),
             favoriteButton.trailingAnchor.constraint(equalTo: image.trailingAnchor, constant: -16),
