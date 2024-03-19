@@ -159,14 +159,25 @@ class MovieDetailsViewController: UIViewController {
     
     private func setupViews() {
         titleLabel.text = movie.title
-        infoLabel.text = "| Release date: \(movie.releaseDate) \n| Original title: \(movie.originalTitle)\n| Popularity: \(movie.popularity)"
+        infoLabel.text = """
+        | Release date: \(formatDateToBr(date: movie.releaseDate))
+        | Original title: \(movie.originalTitle)
+        | Popularity: \(movie.popularity)
+        """
         synopisisLabel.text = movie.overview //"synopisis here..."
         rateLabel.text = "4.7"
         
         let imagePreview = "kDp1vUBnMpe8ak4rjgl3cLELqjU.jpg"
         let strPath = "https://image.tmdb.org/t/p/w500\(movie.posterPath ?? imagePreview)"
         
-        image.kf.setImage(with: URL(string: strPath))
+        let placeHolder = UIImage(systemName: "photo.fill")
+        image.kf.setImage(
+            with: URL(string: strPath),
+            placeholder: placeHolder,
+            options: [
+                .transition(.fade(0.3))
+            ]
+        )
         
         backButton.addTarget(self, action: #selector(onClickBackButton), for: .touchUpInside)
     }
@@ -174,6 +185,20 @@ class MovieDetailsViewController: UIViewController {
     @objc private func onClickBackButton(sender: UIButton) {
         print("on click back button")
         navigationController?.popToRootViewController(animated: true)
+    }
+    
+    private func formatDateToBr(date: String) -> String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd"
+        
+        if let date = formatter.date(from: date) {
+            let dateFormater = DateFormatter()
+            dateFormater.dateFormat = "dd-MM-yyyy"
+            
+            return dateFormater.string(from: date)
+        }
+        
+        return date
     }
     
     private func setupConstraints() {
