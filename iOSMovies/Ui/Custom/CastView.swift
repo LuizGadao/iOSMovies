@@ -34,14 +34,20 @@ class CastView: UIView, UICollectionViewDataSource, UICollectionViewDelegateFlow
         setupViews()
     }
     
+    init(images: [String]) {
+        items = images
+        super.init(frame: .infinite)
+        setupViews()
+    }
+    
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         setupViews()
     }
     
-    func setColor(color: UIColor) {
-        primaryColor = color
-        titleLabel.textColor = color
+    func setColor(colors: [UIColor]) {
+        primaryColor = colors[0]
+        titleLabel.textColor = colors[0]
     }
     
     private func setupViews() {
@@ -69,21 +75,6 @@ class CastView: UIView, UICollectionViewDataSource, UICollectionViewDelegateFlow
             collectionView.heightAnchor.constraint(equalToConstant: 100)
             //collectionView.bottomAnchor.constraint(equalTo: bottomAnchor)
         ])
-        
-        items = [
-            "BE2sdjpgsa2rNTFa66f7upkaOP.jpg",
-            "tylFh0K48CZIIhvKlA7WA1XBAtE.jpg",
-            "lJloTOheuQSirSLXNA3JHsrMNfH.jpg",
-            "IShnFg6ijWhpbu29dFBd9PtqQg.jpg",
-            "sX2etBbIkxRaCsATyw5ZpOVMPTD.jpg",
-            "jn63A9goIetyvJt5DTHypjk33ip.jpg",
-            "BE2sdjpgsa2rNTFa66f7upkaOP.jpg",
-            "tylFh0K48CZIIhvKlA7WA1XBAtE.jpg",
-            "lJloTOheuQSirSLXNA3JHsrMNfH.jpg",
-            "IShnFg6ijWhpbu29dFBd9PtqQg.jpg",
-            "sX2etBbIkxRaCsATyw5ZpOVMPTD.jpg",
-            "jn63A9goIetyvJt5DTHypjk33ip.jpg"
-        ]
     }
     
     // MARK: - UICollectionViewDataSource
@@ -129,7 +120,20 @@ struct CustomViewPreview: PreviewProvider {
 
 struct CustomViewRepresentable: UIViewRepresentable {
     func makeUIView(context: Context) -> UIView {
-        return CastView(frame: CGRect(x: 0, y: 0, width: 300, height: 200)) // Adjust the size as needed
+        return CastView(images: [
+            "BE2sdjpgsa2rNTFa66f7upkaOP.jpg",
+            "tylFh0K48CZIIhvKlA7WA1XBAtE.jpg",
+            "lJloTOheuQSirSLXNA3JHsrMNfH.jpg",
+            "IShnFg6ijWhpbu29dFBd9PtqQg.jpg",
+            "sX2etBbIkxRaCsATyw5ZpOVMPTD.jpg",
+            "jn63A9goIetyvJt5DTHypjk33ip.jpg",
+            "BE2sdjpgsa2rNTFa66f7upkaOP.jpg",
+            "tylFh0K48CZIIhvKlA7WA1XBAtE.jpg",
+            "lJloTOheuQSirSLXNA3JHsrMNfH.jpg",
+            "IShnFg6ijWhpbu29dFBd9PtqQg.jpg",
+            "sX2etBbIkxRaCsATyw5ZpOVMPTD.jpg",
+            "jn63A9goIetyvJt5DTHypjk33ip.jpg"
+        ]) // Adjust the size as needed
     }
     
     func updateUIView(_ uiView: UIView, context: Context) {

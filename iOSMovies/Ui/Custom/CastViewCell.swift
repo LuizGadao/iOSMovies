@@ -14,7 +14,7 @@ class CastViewCell: UICollectionViewCell {
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
         imageView.layer.cornerRadius = 40
-        imageView.layer.borderWidth = 4
+        imageView.layer.borderWidth = 3
         imageView.layer.borderColor = UIColor.colorTitle.cgColor
         return imageView
     }()

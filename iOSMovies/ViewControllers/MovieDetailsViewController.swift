@@ -67,8 +67,8 @@ class MovieDetailsViewController: UIViewController {
     private lazy var infoLabel: UILabel = {
        let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = .systemFont(ofSize: 18.0)
-        //label.font = .italicSystemFont(ofSize: 16)
+        label.font = .systemFont(ofSize: 20.0)
+        //label.font = .italicSystemFont(ofSize: 22)
         label.textColor = .lightGray
         label.numberOfLines = 0
         
@@ -117,8 +117,6 @@ class MovieDetailsViewController: UIViewController {
         let iconImage = UIImage(systemName: "heart")?.withTintColor(.white, renderingMode: .alwaysOriginal)
         button.setImage(iconImage, for: .normal)
         button.backgroundColor = .white.withAlphaComponent(0.6)
-        let inset: CGFloat = 0 // Adjust as needed
-        button.imageEdgeInsets = UIEdgeInsets(top: inset, left: inset, bottom: inset, right: inset)
         
         button.layer.cornerRadius = 20
         return button
@@ -133,8 +131,6 @@ class MovieDetailsViewController: UIViewController {
         
         button.setImage(backIcon, for: .normal)
         button.backgroundColor = .white.withAlphaComponent(0.5)
-        let inset: CGFloat = 0 // Adjust as needed
-        button.imageEdgeInsets = UIEdgeInsets(top: inset, left: inset, bottom: inset, right: inset)
         
         button.layer.cornerRadius = 20
         
@@ -189,9 +185,11 @@ class MovieDetailsViewController: UIViewController {
             
             switch result {
             case .success(let value) :
-                let colors = self.extractColors(from: value.image)
-                self.tintComponents(colors: colors)
-                print("dominant colors: ", colors)
+                let colors = self.extractColors(count: 1)
+                let color = value.image.averageColor ?? .blue
+                
+                self.tintComponents(colors: [color, colors[0]])
+                print("dominant colors: ", color)
                 
             case .failure(_) :
                 print("error loading image")
@@ -202,8 +200,8 @@ class MovieDetailsViewController: UIViewController {
         backButton.addTarget(self, action: #selector(onClickBackButton), for: .touchUpInside)
     }
     
-    private func extractColors(from image: UIImage) -> [UIColor] {
-        let numberOfColors = 5
+    private func extractColors(count: Int) -> [UIColor] {
+        let numberOfColors = count
         var colors: [UIColor] = []
         for _ in 0..<numberOfColors {
             let red = CGFloat.random(in: 0...1)
@@ -216,16 +214,16 @@ class MovieDetailsViewController: UIViewController {
     
     private func tintComponents(colors:[UIColor]) {
         var tintedImage = UIImage(systemName:"arrowshape.turn.up.backward.fill")?
-            .withTintColor(colors[0].withAlphaComponent(0.7), renderingMode: .alwaysOriginal)
+            .withTintColor(colors[0].withAlphaComponent(1), renderingMode: .alwaysOriginal)
         self.backButton.setImage(tintedImage, for: .normal)
         
         tintedImage = UIImage(systemName:"heart")?
-            .withTintColor(colors[0].withAlphaComponent(0.7), renderingMode: .alwaysOriginal)
+            .withTintColor(colors[0].withAlphaComponent(1), renderingMode: .alwaysOriginal)
         self.favoriteButton.setImage(tintedImage, for: .normal)
         
         self.titleLabel.textColor = colors[0]
         self.synopisisTitle.textColor = colors[0]
-        self.castView.setColor(color: colors[0])
+        self.castView.setColor(colors: colors)
     }
     
     @objc private func onClickBackButton(sender: UIButton) {
@@ -309,6 +307,27 @@ class MovieDetailsViewController: UIViewController {
             backButton.widthAnchor.constraint(equalToConstant: 40),
             backButton.heightAnchor.constraint(equalToConstant: 40)
         ])
+    }
+}
+
+extension UIImage {
+    var averageColor: UIColor? {
+        guard let inputImage = CIImage(image: self) else { return nil }
+        let extentVector = CIVector(x: inputImage.extent.origin.x, y: inputImage.extent.origin.y, z: inputImage.extent.size.width, w: inputImage.extent.size.height)
+
+        guard let filter = CIFilter(name: "CIAreaAverage", parameters: [kCIInputImageKey: inputImage, kCIInputExtentKey: extentVector]) else { return nil }
+        guard let outputImage = filter.outputImage else { return nil }
+
+        var bitmap = [UInt8](repeating: 0, count: 4)
+        let context = CIContext(options: [.workingColorSpace: kCFNull!])
+        context.render(outputImage, toBitmap: &bitmap, rowBytes: 4, bounds: CGRect(x: 0, y: 0, width: 1, height: 1), format: .RGBA8, colorSpace: nil)
+        
+        return UIColor(
+            red: CGFloat(bitmap[0]) / 255,
+            green: CGFloat(bitmap[1]) / 255,
+            blue: CGFloat(bitmap[2]) / 255,
+            alpha: CGFloat(bitmap[3]) / 255
+        )
     }
 }
 
