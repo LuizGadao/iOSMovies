@@ -94,6 +94,7 @@ extension MoviesViewController: UICollectionViewDataSource {
         //cell.delegate = self
         let posterImg = "https://image.tmdb.org/t/p/w500/\(movies[indexPath.item].posterPath!)"
         cell.loadImage(imageUrl: posterImg)
+        cell.delegate = self
         
         return cell
     }
@@ -116,5 +117,21 @@ extension MoviesViewController: UICollectionViewDelegateFlowLayout {
         }
     }
 
+}
+
+extension MoviesViewController : MovieViewCellDelegate {
+    
+    func onClickMovie(_ cell: UICollectionViewCell) {
+        guard let index = collectionView.indexPath(for: cell) else  {
+            return
+        }
+        
+        let movie = movies[index.row]
+        navigationController?.pushViewController(
+            MovieDetailsViewController(movie: movie),
+            animated: true
+        )
+    }
+    
 }
 

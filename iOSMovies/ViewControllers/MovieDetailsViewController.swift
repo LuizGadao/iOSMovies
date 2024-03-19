@@ -117,9 +117,6 @@ class MovieDetailsViewController: UIViewController {
         button.imageEdgeInsets = UIEdgeInsets(top: inset, left: inset, bottom: inset, right: inset)
         
         button.layer.cornerRadius = 20
-
-        //button.addTarget(self, action: #selector(onClickFavoriteButton), for: .touchUpInside)
-        
         return button
     }()
     
@@ -138,19 +135,11 @@ class MovieDetailsViewController: UIViewController {
     }()
     
     override func viewDidLoad() {
+        navigationController?.setNavigationBarHidden(true, animated: true)
         view.backgroundColor = .white
         addViews()
         setupConstraints()
-        
-        titleLabel.text = movie.title
-        infoLabel.text = "| Release date: \(movie.releaseDate) \n| Original title: \(movie.originalTitle)\n| Popularity: \(movie.popularity)"
-        synopisisLabel.text = movie.overview //"synopisis here..."
-        rateLabel.text = "4.7"
-        
-        let imagePreview = "kDp1vUBnMpe8ak4rjgl3cLELqjU.jpg"
-        let strPath = "https://image.tmdb.org/t/p/w500\(movie.posterPath ?? imagePreview)"
-        
-        image.kf.setImage(with: URL(string: strPath))
+        setupViews()
     }
     
     private func addViews() {
@@ -166,6 +155,25 @@ class MovieDetailsViewController: UIViewController {
         contentView.addSubview(rateLabel)
         contentView.addSubview(favoriteButton)
         contentView.addSubview(backButton)
+    }
+    
+    private func setupViews() {
+        titleLabel.text = movie.title
+        infoLabel.text = "| Release date: \(movie.releaseDate) \n| Original title: \(movie.originalTitle)\n| Popularity: \(movie.popularity)"
+        synopisisLabel.text = movie.overview //"synopisis here..."
+        rateLabel.text = "4.7"
+        
+        let imagePreview = "kDp1vUBnMpe8ak4rjgl3cLELqjU.jpg"
+        let strPath = "https://image.tmdb.org/t/p/w500\(movie.posterPath ?? imagePreview)"
+        
+        image.kf.setImage(with: URL(string: strPath))
+        
+        backButton.addTarget(self, action: #selector(onClickBackButton), for: .touchUpInside)
+    }
+    
+    @objc private func onClickBackButton(sender: UIButton) {
+        print("on click back button")
+        navigationController?.popToRootViewController(animated: true)
     }
     
     private func setupConstraints() {

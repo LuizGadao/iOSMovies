@@ -9,7 +9,14 @@ import UIKit
 import SwiftUI
 import Kingfisher
 
+protocol MovieViewCellDelegate: AnyObject {
+    func onClickMovie(_ cell: UICollectionViewCell)
+}
+
 class MovieViewCell: UICollectionViewCell {
+    
+    weak var delegate: MovieViewCellDelegate?
+    
     // MARK: - Properties
     private lazy var imageView: UIImageView = {
         let imageView = UIImageView()
@@ -40,6 +47,12 @@ class MovieViewCell: UICollectionViewCell {
         ///kDp1vUBnMpe8ak4rjgl3cLELqjU.jpg
         ///hu40Uxp9WtpL34jv3zyWLb5zEVY.jpg
         loadImage(imageUrl: "https://image.tmdb.org/t/p/w300/kDp1vUBnMpe8ak4rjgl3cLELqjU.jpg")
+        
+        let tapGesture = UITapGestureRecognizer(
+            target: self,
+            action: #selector(onClick(_:))
+        )
+        self.addGestureRecognizer(tapGesture)
     }
         
     required init?(coder aDecoder: NSCoder) {
@@ -69,6 +82,11 @@ class MovieViewCell: UICollectionViewCell {
     
     func loadImage(imageUrl: String) {
         imageView.kf.setImage(with: URL(string: imageUrl))
+    }
+    
+    @objc private func onClick(_ gesture: UITapGestureRecognizer) {
+        print("click - movie")
+        delegate?.onClickMovie(self)
     }
 }
 
