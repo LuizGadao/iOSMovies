@@ -20,6 +20,8 @@
 		4911B8782BA1E994003C0092 /* LocalProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4911B8772BA1E994003C0092 /* LocalProperties.swift */; };
 		4911B87A2BA1E9D4003C0092 /* Config.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4911B8792BA1E9D4003C0092 /* Config.plist */; };
 		49707A5F2BA4CE2C003A6342 /* MovieDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49707A5E2BA4CE2C003A6342 /* MovieDetailsViewController.swift */; };
+		49707A622BA99AAF003A6342 /* CastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49707A612BA99AAF003A6342 /* CastView.swift */; };
+		49707A642BA99E96003A6342 /* CastViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49707A632BA99E96003A6342 /* CastViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -38,6 +40,8 @@
 		4911B8772BA1E994003C0092 /* LocalProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalProperties.swift; sourceTree = "<group>"; };
 		4911B8792BA1E9D4003C0092 /* Config.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Config.plist; sourceTree = "<group>"; };
 		49707A5E2BA4CE2C003A6342 /* MovieDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDetailsViewController.swift; sourceTree = "<group>"; };
+		49707A612BA99AAF003A6342 /* CastView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CastView.swift; sourceTree = "<group>"; };
+		49707A632BA99E96003A6342 /* CastViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CastViewCell.swift; sourceTree = "<group>"; };
 		7D93AF91BE01BF8961085857 /* Pods_iOSMovies.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_iOSMovies.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A8E5086566BC1EABE9570E75 /* Pods-iOSMovies.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iOSMovies.release.xcconfig"; path = "Target Support Files/Pods-iOSMovies/Pods-iOSMovies.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -91,6 +95,7 @@
 		4911B86A2BA1E763003C0092 /* Ui */ = {
 			isa = PBXGroup;
 			children = (
+				49707A602BA99A8F003A6342 /* Custom */,
 				4911B86B2BA1E76E003C0092 /* Cells */,
 			);
 			path = Ui;
@@ -138,6 +143,15 @@
 				49707A5E2BA4CE2C003A6342 /* MovieDetailsViewController.swift */,
 			);
 			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		49707A602BA99A8F003A6342 /* Custom */ = {
+			isa = PBXGroup;
+			children = (
+				49707A612BA99AAF003A6342 /* CastView.swift */,
+				49707A632BA99E96003A6342 /* CastViewCell.swift */,
+			);
+			path = Custom;
 			sourceTree = "<group>";
 		};
 		E42CAC4ACEBBDBF65D6ADA79 /* Frameworks */ = {
@@ -275,9 +289,11 @@
 				4911B8782BA1E994003C0092 /* LocalProperties.swift in Sources */,
 				4911B85B2BA1DA7C003C0092 /* MoviesViewController.swift in Sources */,
 				49707A5F2BA4CE2C003A6342 /* MovieDetailsViewController.swift in Sources */,
+				49707A622BA99AAF003A6342 /* CastView.swift in Sources */,
 				4911B8762BA1E976003C0092 /* NetworkDataSource.swift in Sources */,
 				4911B8742BA1E93C003C0092 /* MovieServiceError.swift in Sources */,
 				4911B8722BA1E918003C0092 /* MovieResponse.swift in Sources */,
+				49707A642BA99E96003A6342 /* CastViewCell.swift in Sources */,
 				4911B86D2BA1E7AD003C0092 /* MovieViewCell.swift in Sources */,
 				4911B8572BA1DA7C003C0092 /* AppDelegate.swift in Sources */,
 				4911B8592BA1DA7C003C0092 /* SceneDelegate.swift in Sources */,

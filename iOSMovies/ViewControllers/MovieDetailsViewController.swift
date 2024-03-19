@@ -12,8 +12,6 @@ class MovieDetailsViewController: UIViewController {
 
     var movie: Movie
     
-    private var primaryColor = UIColor.blue
-    
     init(movie: Movie) {
         self.movie = movie
         super.init(nibName: nil, bundle: nil)
@@ -60,7 +58,7 @@ class MovieDetailsViewController: UIViewController {
        let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .systemFont(ofSize: 38.0, weight: .bold)
-        label.textColor = .black
+        label.textColor = .colorTitle
         label.numberOfLines = 0
         
         return label
@@ -91,10 +89,16 @@ class MovieDetailsViewController: UIViewController {
        let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .systemFont(ofSize: 24.0, weight: .bold)
-        label.textColor = .black
+        label.textColor = .colorTitle
         label.numberOfLines = 0
         label.text = "Prolog"
         return label
+    }()
+    
+    private lazy var castView: CastView = {
+        let cast = CastView()
+        cast.translatesAutoresizingMaskIntoConstraints = false
+        return cast
     }()
     
     private lazy var synopisisLabel: UILabel = {
@@ -120,11 +124,14 @@ class MovieDetailsViewController: UIViewController {
         return button
     }()
     
+    var backIcon = UIImage(systemName:"arrowshape.turn.up.backward.fill")?
+        .withTintColor(.colorTitle.withAlphaComponent(0.7), renderingMode: .alwaysOriginal)
+    
     private lazy var backButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
-        let iconImage = UIImage(systemName: "arrowshape.turn.up.backward.fill")?.withTintColor(.white, renderingMode: .alwaysOriginal)
-        button.setImage(iconImage, for: .normal)
+        
+        button.setImage(backIcon, for: .normal)
         button.backgroundColor = .white.withAlphaComponent(0.5)
         let inset: CGFloat = 0 // Adjust as needed
         button.imageEdgeInsets = UIEdgeInsets(top: inset, left: inset, bottom: inset, right: inset)
@@ -155,6 +162,7 @@ class MovieDetailsViewController: UIViewController {
         contentView.addSubview(rateLabel)
         contentView.addSubview(favoriteButton)
         contentView.addSubview(backButton)
+        contentView.addSubview(castView)
     }
     
     private func setupViews() {
@@ -177,9 +185,47 @@ class MovieDetailsViewController: UIViewController {
             options: [
                 .transition(.fade(0.3))
             ]
-        )
+        ) { result in
+            
+            switch result {
+            case .success(let value) :
+                let colors = self.extractColors(from: value.image)
+                self.tintComponents(colors: colors)
+                print("dominant colors: ", colors)
+                
+            case .failure(_) :
+                print("error loading image")
+            }
+            
+        }
         
         backButton.addTarget(self, action: #selector(onClickBackButton), for: .touchUpInside)
+    }
+    
+    private func extractColors(from image: UIImage) -> [UIColor] {
+        let numberOfColors = 5
+        var colors: [UIColor] = []
+        for _ in 0..<numberOfColors {
+            let red = CGFloat.random(in: 0...1)
+            let green = CGFloat.random(in: 0...1)
+            let blue = CGFloat.random(in: 0...1)
+            colors.append(UIColor(red: red, green: green, blue: blue, alpha: 1.0))
+        }
+        return colors
+    }
+    
+    private func tintComponents(colors:[UIColor]) {
+        var tintedImage = UIImage(systemName:"arrowshape.turn.up.backward.fill")?
+            .withTintColor(colors[0].withAlphaComponent(0.7), renderingMode: .alwaysOriginal)
+        self.backButton.setImage(tintedImage, for: .normal)
+        
+        tintedImage = UIImage(systemName:"heart")?
+            .withTintColor(colors[0].withAlphaComponent(0.7), renderingMode: .alwaysOriginal)
+        self.favoriteButton.setImage(tintedImage, for: .normal)
+        
+        self.titleLabel.textColor = colors[0]
+        self.synopisisTitle.textColor = colors[0]
+        self.castView.setColor(color: colors[0])
     }
     
     @objc private func onClickBackButton(sender: UIButton) {
@@ -223,14 +269,14 @@ class MovieDetailsViewController: UIViewController {
             image.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8),
             image.heightAnchor.constraint(equalToConstant: 310),
             
-            titleLabel.topAnchor.constraint(equalTo: image.bottomAnchor, constant: 16),
-            titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
-            titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -48),
-            
             star.topAnchor.constraint(equalTo: image.bottomAnchor, constant: 26),
             star.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -48),
             star.widthAnchor.constraint(equalToConstant: 22.0),
             star.heightAnchor.constraint(equalToConstant: 22.0),
+            
+            titleLabel.topAnchor.constraint(equalTo: image.bottomAnchor, constant: 16),
+            titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
+            titleLabel.trailingAnchor.constraint(equalTo: star.trailingAnchor, constant: -12),
             
             rateLabel.topAnchor.constraint(equalTo: star.topAnchor, constant: 2),
             rateLabel.leadingAnchor.constraint(equalTo: star.trailingAnchor, constant: 6),
@@ -239,7 +285,12 @@ class MovieDetailsViewController: UIViewController {
             infoLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
             infoLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
             
-            synopisisTitle.topAnchor.constraint(equalTo: infoLabel.bottomAnchor, constant: 16),
+            castView.topAnchor.constraint(equalTo: infoLabel.bottomAnchor, constant: 16),
+            castView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 0),
+            castView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: 0),
+            castView.heightAnchor.constraint(equalToConstant: 145),
+            
+            synopisisTitle.topAnchor.constraint(equalTo: castView.bottomAnchor, constant: 16),
             synopisisTitle.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
             synopisisTitle.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
             
@@ -248,12 +299,12 @@ class MovieDetailsViewController: UIViewController {
             synopisisLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
             synopisisLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: 8),
             
-            favoriteButton.topAnchor.constraint(equalTo: image.topAnchor, constant: 24),
+            favoriteButton.topAnchor.constraint(equalTo: image.topAnchor, constant: 44),
             favoriteButton.trailingAnchor.constraint(equalTo: image.trailingAnchor, constant: -16),
             favoriteButton.widthAnchor.constraint(equalToConstant: 40),
             favoriteButton.heightAnchor.constraint(equalToConstant: 40),
             
-            backButton.topAnchor.constraint(equalTo: image.topAnchor, constant: 24),
+            backButton.topAnchor.constraint(equalTo: image.topAnchor, constant: 44),
             backButton.leadingAnchor.constraint(equalTo: image.leadingAnchor, constant: 16),
             backButton.widthAnchor.constraint(equalToConstant: 40),
             backButton.heightAnchor.constraint(equalToConstant: 40)
@@ -282,12 +333,12 @@ struct MyViewControllerWrapper<View: UIView>: UIViewControllerRepresentable {
             "genre_ids": [28, 12, 16, 35, 10751],
             "id": 1011985,
             "original_language": "en",
-            "original_title": "Kung Fu Panda 4",
+            "original_title": "Kung Fu Panda 444",
             "overview": "Po is gearing up to become the spiritual leader of his Valley of Peace, but also needs someone to take his place as Dragon Warrior. As such, he will train a new kung fu practitioner for the spot and will encounter a villain called the Chameleon who conjures villains from the past.",
             "popularity": 1652.671,
             "poster_path": "/kDp1vUBnMpe8ak4rjgl3cLELqjU.jpg",
             "release_date": "2024-03-02",
-            "title": "Kung Fu Panda 4",
+            "title": "Kung Fu Panda 44",
             "video": false,
             "vote_average": 6.993,
             "vote_count": 68

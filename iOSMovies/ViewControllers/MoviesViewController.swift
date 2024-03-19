@@ -127,6 +127,7 @@ extension MoviesViewController : MovieViewCellDelegate {
         }
         
         let movie = movies[index.row]
+        print("movie id: \(movie.id)")
         navigationController?.pushViewController(
             MovieDetailsViewController(movie: movie),
             animated: true
