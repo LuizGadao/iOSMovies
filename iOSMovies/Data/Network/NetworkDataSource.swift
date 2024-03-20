@@ -61,4 +61,43 @@ class NetworkdDataSource {
         }
     }
     
+    func getMovieCredit(movieId: Int) async throws -> MovieCreditResponse {
+        let endpointPopularMovies = "\(baseURL)movie/\(movieId)/credits"
+        
+        guard var url = URL(string: endpointPopularMovies) else {
+            throw MovieServiceError.invalidURL
+        }
+        
+        url.append(queryItems: [
+                URLQueryItem(name: "api_key", value: apiKey),
+                URLQueryItem(name: "language", value: "pt-br"),
+                //URLQueryItem(name: "language", value: "en-US"),
+            ]
+        )
+        
+        print(url.absoluteString)
+
+        var request = URLRequest(
+            url: url,
+            cachePolicy: .useProtocolCachePolicy,
+            timeoutInterval: 10.0
+        )
+        
+        request.httpMethod = "GET"
+        request.allHTTPHeaderFields = headers
+        
+        let (data, response) = try await URLSession.shared.data(for: request)
+        guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
+            throw MovieServiceError.invalidResponse
+        }
+        
+        do {
+            let decoder = JSONDecoder()
+            let credit = try decoder.decode(MovieCreditResponse.self, from: data)
+            return credit
+        } catch {
+            throw MovieServiceError.invalidJson
+        }
+    }
+    
 }

@@ -22,6 +22,7 @@
 		49707A5F2BA4CE2C003A6342 /* MovieDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49707A5E2BA4CE2C003A6342 /* MovieDetailsViewController.swift */; };
 		49707A622BA99AAF003A6342 /* CastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49707A612BA99AAF003A6342 /* CastView.swift */; };
 		49707A642BA99E96003A6342 /* CastViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49707A632BA99E96003A6342 /* CastViewCell.swift */; };
+		49707A662BAA3C2F003A6342 /* MovieCreditResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49707A652BAA3C2F003A6342 /* MovieCreditResponse.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -42,6 +43,7 @@
 		49707A5E2BA4CE2C003A6342 /* MovieDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDetailsViewController.swift; sourceTree = "<group>"; };
 		49707A612BA99AAF003A6342 /* CastView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CastView.swift; sourceTree = "<group>"; };
 		49707A632BA99E96003A6342 /* CastViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CastViewCell.swift; sourceTree = "<group>"; };
+		49707A652BAA3C2F003A6342 /* MovieCreditResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieCreditResponse.swift; sourceTree = "<group>"; };
 		7D93AF91BE01BF8961085857 /* Pods_iOSMovies.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_iOSMovies.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A8E5086566BC1EABE9570E75 /* Pods-iOSMovies.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iOSMovies.release.xcconfig"; path = "Target Support Files/Pods-iOSMovies/Pods-iOSMovies.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -132,6 +134,7 @@
 			children = (
 				4911B8712BA1E918003C0092 /* MovieResponse.swift */,
 				4911B8732BA1E93C003C0092 /* MovieServiceError.swift */,
+				49707A652BAA3C2F003A6342 /* MovieCreditResponse.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -293,6 +296,7 @@
 				4911B8762BA1E976003C0092 /* NetworkDataSource.swift in Sources */,
 				4911B8742BA1E93C003C0092 /* MovieServiceError.swift in Sources */,
 				4911B8722BA1E918003C0092 /* MovieResponse.swift in Sources */,
+				49707A662BAA3C2F003A6342 /* MovieCreditResponse.swift in Sources */,
 				49707A642BA99E96003A6342 /* CastViewCell.swift in Sources */,
 				4911B86D2BA1E7AD003C0092 /* MovieViewCell.swift in Sources */,
 				4911B8572BA1DA7C003C0092 /* AppDelegate.swift in Sources */,

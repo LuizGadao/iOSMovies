@@ -23,7 +23,7 @@ class CastView: UIView, UICollectionViewDataSource, UICollectionViewDelegateFlow
         return collection
     } ()
     
-    var items = [String]() {
+    var images = [String]() {
         didSet {
             collectionView.reloadData()
         }
@@ -35,7 +35,7 @@ class CastView: UIView, UICollectionViewDataSource, UICollectionViewDelegateFlow
     }
     
     init(images: [String]) {
-        items = images
+        self.images = images
         super.init(frame: .infinite)
         setupViews()
     }
@@ -75,12 +75,29 @@ class CastView: UIView, UICollectionViewDataSource, UICollectionViewDelegateFlow
             collectionView.heightAnchor.constraint(equalToConstant: 100)
             //collectionView.bottomAnchor.constraint(equalTo: bottomAnchor)
         ])
+        
+        /* for preview
+        self.images = [
+            "BE2sdjpgsa2rNTFa66f7upkaOP.jpg",
+            "tylFh0K48CZIIhvKlA7WA1XBAtE.jpg",
+            "lJloTOheuQSirSLXNA3JHsrMNfH.jpg",
+            "IShnFg6ijWhpbu29dFBd9PtqQg.jpg",
+            "sX2etBbIkxRaCsATyw5ZpOVMPTD.jpg",
+            "jn63A9goIetyvJt5DTHypjk33ip.jpg",
+            "BE2sdjpgsa2rNTFa66f7upkaOP.jpg",
+            "tylFh0K48CZIIhvKlA7WA1XBAtE.jpg",
+            "lJloTOheuQSirSLXNA3JHsrMNfH.jpg",
+            "IShnFg6ijWhpbu29dFBd9PtqQg.jpg",
+            "sX2etBbIkxRaCsATyw5ZpOVMPTD.jpg",
+            "jn63A9goIetyvJt5DTHypjk33ip.jpg"
+        ]
+        */
     }
     
     // MARK: - UICollectionViewDataSource
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return items.count
+        return images.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -89,7 +106,7 @@ class CastView: UIView, UICollectionViewDataSource, UICollectionViewDelegateFlow
         }
         
         cell.loadImage(
-            imageUrl: "https://image.tmdb.org/t/p/w300/\(items[indexPath.row])"
+            imageUrl: "https://image.tmdb.org/t/p/w200/\(images[indexPath.row])"
         )
         
         if primaryColor != nil {

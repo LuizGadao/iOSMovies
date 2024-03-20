@@ -11,6 +11,7 @@ import SwiftUI
 class MovieDetailsViewController: UIViewController {
 
     var movie: Movie
+    private var remote = NetworkdDataSource()
     
     init(movie: Movie) {
         self.movie = movie
@@ -51,7 +52,7 @@ class MovieDetailsViewController: UIViewController {
         image.translatesAutoresizingMaskIntoConstraints = false
         image.contentMode = .scaleAspectFill
         
-        return image
+        return image    
     }()
     
     private lazy var titleLabel: UILabel = {
@@ -143,6 +144,22 @@ class MovieDetailsViewController: UIViewController {
         addViews()
         setupConstraints()
         setupViews()
+        
+        Task {
+            await getCreditMovie()
+        }
+    }
+    
+    private func getCreditMovie() async {
+        do {
+            let movieCredit = try await remote.getMovieCredit(movieId: movie.id)
+            let actorsWithImage = movieCredit.cast.filter{ $0.profilePath != nil }
+            let images = actorsWithImage.map{ $0.profilePath! }
+            
+            castView.images = images
+        } catch(let error) {
+            print("error load credit movie: \(error)")
+        }
     }
     
     private func addViews() {
