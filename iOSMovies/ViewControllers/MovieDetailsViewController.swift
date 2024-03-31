@@ -181,9 +181,9 @@ class MovieDetailsViewController: UIViewController {
     private func setupViews() {
         titleLabel.text = movie.title
         infoLabel.text = """
-        | Release date: \(formatDateToBr(date: movie.releaseDate))
-        | Original title: \(movie.originalTitle)
-        | Popularity: \(movie.popularity)
+        | Data de lançamento: \(formatDateToBr(date: movie.releaseDate))
+        | Título original: \(movie.originalTitle)
+        | Popularidade: \(movie.popularity)
         """
         synopisisLabel.text = movie.overview //"synopisis here..."
         rateLabel.text = "4.7"

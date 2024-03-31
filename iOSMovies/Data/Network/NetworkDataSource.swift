@@ -17,7 +17,6 @@ class NetworkdDataSource {
         "accept": "application/json"
     ]
     
-    
     init() { }
     
     func getMovies() async throws -> MovieResponse {
@@ -28,24 +27,11 @@ class NetworkdDataSource {
             throw MovieServiceError.invalidURL
         }
         
-        url.append(queryItems: [
-                URLQueryItem(name: "api_key", value: apiKey),
-                URLQueryItem(name: "language", value: "pt-br"),
-                //URLQueryItem(name: "language", value: "en-US"),
-            ]
-        )
+        url.append(queryItems: getQueryParameters())
         
         print(url.absoluteString)
 
-        var request = URLRequest(
-            url: url,
-            cachePolicy: .useProtocolCachePolicy,
-            timeoutInterval: 10.0
-        )
-        
-        request.httpMethod = "GET"
-        request.allHTTPHeaderFields = headers
-    
+        var request = getURLRequest(url: url)
         
         let (data, response) = try await URLSession.shared.data(for: request)
         guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
@@ -68,23 +54,11 @@ class NetworkdDataSource {
             throw MovieServiceError.invalidURL
         }
         
-        url.append(queryItems: [
-                URLQueryItem(name: "api_key", value: apiKey),
-                URLQueryItem(name: "language", value: "pt-br"),
-                //URLQueryItem(name: "language", value: "en-US"),
-            ]
-        )
+        url.append(queryItems: getQueryParameters())
         
         print(url.absoluteString)
 
-        var request = URLRequest(
-            url: url,
-            cachePolicy: .useProtocolCachePolicy,
-            timeoutInterval: 10.0
-        )
-        
-        request.httpMethod = "GET"
-        request.allHTTPHeaderFields = headers
+        var request = getURLRequest(url: url)
         
         let (data, response) = try await URLSession.shared.data(for: request)
         guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
@@ -98,6 +72,27 @@ class NetworkdDataSource {
         } catch {
             throw MovieServiceError.invalidJson
         }
+    }
+    
+    private func getQueryParameters() -> [URLQueryItem] {
+        return [
+            URLQueryItem(name: "api_key", value: apiKey),
+            URLQueryItem(name: "language", value: "pt-br"),
+            //URLQueryItem(name: "language", value: "en-US"),
+        ]
+    }
+    
+    private func getURLRequest(url: URL) -> URLRequest {
+        var urlRequest = URLRequest(
+            url: url,
+            cachePolicy: .useProtocolCachePolicy,
+            timeoutInterval: 10.0
+        )
+        
+        urlRequest.httpMethod = "GET"
+        urlRequest.allHTTPHeaderFields = headers
+        
+        return urlRequest
     }
     
 }

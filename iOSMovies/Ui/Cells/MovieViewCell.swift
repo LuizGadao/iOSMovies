@@ -44,9 +44,6 @@ class MovieViewCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupViews()
-        ///kDp1vUBnMpe8ak4rjgl3cLELqjU.jpg
-        ///hu40Uxp9WtpL34jv3zyWLb5zEVY.jpg
-        loadImage(imageUrl: "https://image.tmdb.org/t/p/w300/kDp1vUBnMpe8ak4rjgl3cLELqjU.jpg")
         
         let tapGesture = UITapGestureRecognizer(
             target: self,
@@ -94,7 +91,20 @@ struct CustomCollectionViewCellPreview: PreviewProvider {
     static var previews: some View {
         // Use a UIViewRepresentable to wrap the UICollectionViewCell
         UIViewPreview {
-            MovieViewCell()
+            let cell = MovieViewCell()
+            cell.translatesAutoresizingMaskIntoConstraints = false
+            
+            NSLayoutConstraint.activate([
+                    cell.widthAnchor.constraint(equalToConstant: 182),
+                    cell.heightAnchor.constraint(equalToConstant: 202)
+                ]
+            )
+            
+            ///kDp1vUBnMpe8ak4rjgl3cLELqjU.jpg
+            ///hu40Uxp9WtpL34jv3zyWLb5zEVY.jpg
+            cell.loadImage(imageUrl: "https://image.tmdb.org/t/p/w300/kDp1vUBnMpe8ak4rjgl3cLELqjU.jpg")
+            
+            return cell
         }
     }
 }

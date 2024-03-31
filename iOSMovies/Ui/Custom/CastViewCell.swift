@@ -34,9 +34,6 @@ class CastViewCell: UICollectionViewCell {
             imageView.heightAnchor.constraint(equalToConstant: 80)
             //imageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
         ])
-        
-        // to preview
-        loadImage(imageUrl: "https://image.tmdb.org/t/p/w300/BE2sdjpgsa2rNTFa66f7upkaOP.jpg")
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -63,7 +60,9 @@ struct CustomCollectionViewCastPreview: PreviewProvider {
     static var previews: some View {
         // Use a UIViewRepresentable to wrap the UICollectionViewCell
         UIViewPreview {
-            CastViewCell()
+            let castView = CastViewCell()
+            castView.loadImage(imageUrl: "https://image.tmdb.org/t/p/w300/BE2sdjpgsa2rNTFa66f7upkaOP.jpg")
+            return castView
         }
     }
 }
