@@ -186,7 +186,7 @@ class MovieDetailsViewController: UIViewController {
         | Popularidade: \(movie.popularity)
         """
         synopisisLabel.text = movie.overview //"synopisis here..."
-        rateLabel.text = "4.7"
+        rateLabel.text = String(format: "%.1f", movie.voteAverage)
         
         let imagePreview = "kDp1vUBnMpe8ak4rjgl3cLELqjU.jpg"
         let strPath = "https://image.tmdb.org/t/p/w500\(movie.posterPath ?? imagePreview)"
