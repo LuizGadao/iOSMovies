@@ -9,6 +9,6 @@ Screens :
 
 ![list movies](https://github.com/LuizGadao/iOSMovies/blob/develop/files/mov_img_2.png?raw=true)
 ![details movi](https://github.com/LuizGadao/iOSMovies/blob/develop/files/mov_img_1.png?raw=true)
-<video src="https://github.com/LuizGadao/iOSMovies/blob/develop/files/movie.mp4?=raw=true" controls="controls" style="max-width: 730px;">
+<video src="https://github.com/LuizGadao/iOSMovies/blob/develop/files/movie.mp4" controls="controls" style="max-width: 730px;">
 </video>
 
