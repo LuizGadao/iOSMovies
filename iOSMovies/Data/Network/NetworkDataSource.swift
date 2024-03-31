@@ -31,7 +31,7 @@ class NetworkdDataSource {
         
         print(url.absoluteString)
 
-        var request = getURLRequest(url: url)
+        let request = getURLRequest(url: url)
         
         let (data, response) = try await URLSession.shared.data(for: request)
         guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
@@ -58,7 +58,7 @@ class NetworkdDataSource {
         
         print(url.absoluteString)
 
-        var request = getURLRequest(url: url)
+        let request = getURLRequest(url: url)
         
         let (data, response) = try await URLSession.shared.data(for: request)
         guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
