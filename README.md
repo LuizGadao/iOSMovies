@@ -22,3 +22,8 @@ Screens :
 ![list movies](https://github.com/LuizGadao/iOSMovies/blob/develop/files/mov_img_2.png?raw=true)
 ![details movi](https://github.com/LuizGadao/iOSMovies/blob/develop/files/mov_img_1.png?raw=true)
 
+
+### Todo
+
+- mvvm architecture
+- unit tests
